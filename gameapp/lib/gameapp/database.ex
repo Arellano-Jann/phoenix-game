@@ -19,6 +19,7 @@ defmodule Gameapp.Database do
   """
   def list_systems do
     Repo.all(System)
+    |> Repo.preload(:games)
   end
 
   @doc """
@@ -35,7 +36,10 @@ defmodule Gameapp.Database do
       ** (Ecto.NoResultsError)
 
   """
-  def get_system!(id), do: Repo.get!(System, id)
+  def get_system!(id) do
+    Repo.get!(System, id)
+    |> Repo.preload(:games)
+  end
 
   @doc """
   Creates a system.
@@ -115,6 +119,7 @@ defmodule Gameapp.Database do
   """
   def list_brands do
     Repo.all(Brand)
+    |> Repo.preload(:games)
   end
 
   @doc """
@@ -131,7 +136,9 @@ defmodule Gameapp.Database do
       ** (Ecto.NoResultsError)
 
   """
-  def get_brand!(id), do: Repo.get!(Brand, id)
+  def get_brand!(id) do
+    Repo.get!(Brand, id) |> Repo.preload(:games)
+  end
 
   @doc """
   Creates a brand.
@@ -210,7 +217,9 @@ defmodule Gameapp.Database do
 
   """
   def list_games do
-    Repo.all(Game)
+    x = Repo.all(Game)
+    Repo.preload(x, :brands)
+    Repo.preload(x, :systems)
   end
 
   @doc """
@@ -227,7 +236,11 @@ defmodule Gameapp.Database do
       ** (Ecto.NoResultsError)
 
   """
-  def get_game!(id), do: Repo.get!(Game, id)
+  def get_game!(id) do
+    x = Repo.get!(Game, id)
+    Repo.preload(x, :brands)
+    Repo.preload(x, :systems)
+  end
 
   @doc """
   Creates a game.
