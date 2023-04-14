@@ -6,6 +6,9 @@ defmodule GameappWeb.GameLive.Index do
 
   @impl true
   def mount(_params, _session, socket) do
+    if connected?(socket) do
+      Database.subscribe()
+    end
     {:ok, stream(socket, :games, Database.list_games())}
   end
 
@@ -39,6 +42,19 @@ defmodule GameappWeb.GameLive.Index do
   @impl true
   def handle_info({GameappWeb.GameLive.FormComponent, {:saved, game}}, socket) do
     {:noreply, stream_insert(socket, :games, game |> Repo.preload(:system, force: true) |> Repo.preload(:brand, force: true))}
+  end
+
+  @impl true
+  def handle_info({:game_created, game}, socket) do
+    {:noreply, stream_insert(socket, :games, game)}
+  end
+
+  def handle_info({:game_updated, game}, socket) do
+    {:noreply, stream_insert(socket, :games, game)}
+  end
+
+  def handle_info({:game_deleted, game}, socket) do
+    {:noreply, stream_delete(socket, :games, game)}
   end
 
   @impl true

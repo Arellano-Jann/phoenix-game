@@ -6,6 +6,7 @@ defmodule GameappWeb.BrandLive.Index do
 
   @impl true
   def mount(_params, _session, socket) do
+
     {:ok, stream(socket, :brands, Database.list_brands())}
   end
 
@@ -36,6 +37,8 @@ defmodule GameappWeb.BrandLive.Index do
   def handle_info({GameappWeb.BrandLive.FormComponent, {:saved, brand}}, socket) do
     {:noreply, stream_insert(socket, :brands, brand)}
   end
+
+
 
   @impl true
   def handle_event("delete", %{"id" => id}, socket) do

@@ -10,7 +10,6 @@ defmodule Gameapp.Database.Game do
     belongs_to :system, System
     belongs_to :brand, Brand
 
-
     timestamps()
   end
 

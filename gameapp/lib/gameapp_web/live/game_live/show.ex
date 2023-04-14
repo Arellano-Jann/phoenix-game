@@ -13,7 +13,12 @@ defmodule GameappWeb.GameLive.Show do
     {:noreply,
      socket
      |> assign(:page_title, page_title(socket.assigns.live_action))
-     |> assign(:game, Database.get_game!(id))}
+     |> assign(:game, Database.get_game!(id))
+     |> assign(:systems, Database.list_systems())
+     |> assign(:brands, Database.list_brands())
+    #  |> assign(:system, Database.get_system!(Database.get_game!(id).system_id))
+    #  |> assign(:brand, Database.get_brand!(Database.get_game!(id).brand))
+    }
   end
 
   defp page_title(:show), do: "Show Game"

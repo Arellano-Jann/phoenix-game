@@ -11,6 +11,8 @@
 <.list>
   <:item title="Name"><%= @game.name %></:item>
   <:item title="Description"><%= @game.description %></:item>
+  <%!-- <:item title="System"><%= @system %></:item> --%>
+  <%!-- <:item title="Brand"><%= @game.brand_id %></:item> --%>
 </.list>
 
 <.back navigate={~p"/games"}>Back to games</.back>
@@ -22,8 +24,8 @@
     title={@page_title}
     action={@live_action}
     game={@game}
-    system={@system}
-    brand={@brand}
+    systems={@systems}
+    brands={@brands}
     patch={~p"/games/#{@game}"}
   />
 </.modal>

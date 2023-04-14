@@ -18,6 +18,21 @@ defmodule Gameapp.Database do
       [%System{}, ...]
 
   """
+  def subscribe() do
+    Phoenix.PubSub.subscribe(Gameapp.PubSub, "games")
+  end
+
+  def broadcast({:ok, game}, tag) do
+    Phoenix.PubSub.broadcast(
+      Gameapp.PubSub,
+      "games",
+      {tag, game}
+    )
+    {:ok, game}
+  end
+
+  def broadcast({:error, _changeset} = error, _tag), do: error
+
   def list_systems do
     Repo.all(System)
     |> Repo.preload(:games)
@@ -218,9 +233,9 @@ defmodule Gameapp.Database do
 
   """
   def list_games do
-    x = Repo.all(Game)
-    Repo.preload(x, :brands)
-    Repo.preload(x, :systems)
+    Repo.all(Game)
+    |> Repo.preload(:system)
+    |> Repo.preload(:brand)
   end
 
   @doc """
@@ -238,9 +253,9 @@ defmodule Gameapp.Database do
 
   """
   def get_game!(id) do
-    x = Repo.get!(Game, id)
-    Repo.preload(x, :brands)
-    Repo.preload(x, :systems)
+    Repo.get!(Game, id)
+    |> Repo.preload(:system)
+    |> Repo.preload(:brand)
   end
 
   @doc """
@@ -259,6 +274,7 @@ defmodule Gameapp.Database do
     %Game{}
     |> Game.changeset(attrs)
     |> Repo.insert()
+    |> broadcast(:game_created)
   end
 
   @doc """
@@ -277,6 +293,7 @@ defmodule Gameapp.Database do
     game
     |> Game.changeset(attrs)
     |> Repo.update()
+    |> broadcast(:game_updated)
   end
 
   @doc """
@@ -293,6 +310,7 @@ defmodule Gameapp.Database do
   """
   def delete_game(%Game{} = game) do
     Repo.delete(game)
+    |> broadcast(:game_deleted)
   end
 
   @doc """
