@@ -35,7 +35,7 @@ defmodule GameappWeb.Router do
     live "/games/:id", GameLive.Show, :show
     live "/games/:id/show/edit", GameLive.Show, :edit
 
-    get "/", GameLive.Index, :index
+    live "/", GameLive.Index, :index
   end
 
   # Other scopes may use custom stacks.

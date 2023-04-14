@@ -1,6 +1,6 @@
 defmodule GameappWeb.GameLive.Index do
   use GameappWeb, :live_view
-
+  alias Gameapp.Repo
   alias Gameapp.Database
   alias Gameapp.Database.Game
 
@@ -18,12 +18,16 @@ defmodule GameappWeb.GameLive.Index do
     socket
     |> assign(:page_title, "Edit Game")
     |> assign(:game, Database.get_game!(id))
+    |> assign(:systems, Database.list_systems())
+    |> assign(:brands, Database.list_brands())
   end
 
   defp apply_action(socket, :new, _params) do
     socket
     |> assign(:page_title, "New Game")
     |> assign(:game, %Game{})
+    |> assign(:systems, Database.list_systems())
+    |> assign(:brands, Database.list_brands())
   end
 
   defp apply_action(socket, :index, _params) do

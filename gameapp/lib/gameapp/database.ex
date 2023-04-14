@@ -7,6 +7,7 @@ defmodule Gameapp.Database do
   alias Gameapp.Repo
 
   alias Gameapp.Database.System
+  alias Gameapp.Database.Brand
 
   @doc """
   Returns the list of systems.

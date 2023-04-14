@@ -2,7 +2,9 @@ defmodule GameappWeb.SystemLive.Index do
   use GameappWeb, :live_view
 
   alias Gameapp.Database
+
   alias Gameapp.Database.System
+
 
   @impl true
   def mount(_params, _session, socket) do

@@ -11,6 +11,9 @@
 <.list>
   <:item title="Name"><%= @system.name %></:item>
   <:item title="Maker"><%= @system.maker %></:item>
+  <:item :if={@system.games} title="Games">
+    <%= Enum.map(@system.games, &("#{&1.name}")) |> Enum.join(", ") %>
+  </:item>
 </.list>
 
 <.back navigate={~p"/systems"}>Back to systems</.back>

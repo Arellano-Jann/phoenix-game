@@ -21,7 +21,7 @@ defmodule GameappWeb.GameLive.FormComponent do
       >
         <.input field={@form[:name]} type="text" label="Name" />
         <.input field={@form[:description]} type="text" label="Description" />
-        <.input field={@form[:system_id]} type="select" options={Enum.map(@systems, &({&1.maker, &1.names, &1.id}))}/>
+        <.input field={@form[:system_id]} type="select" options={Enum.map(@systems, &({&1.maker, &1.name, &1.id}))}/>
         <.input field={@form[:brand_id]} type="select" options={Enum.map(@brands, &({&1.name, &1.id}))}/>
         <:actions>
           <.button phx-disable-with="Saving...">Save Game</.button>
