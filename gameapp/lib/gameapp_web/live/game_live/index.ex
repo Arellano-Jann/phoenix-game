@@ -34,7 +34,7 @@ defmodule GameappWeb.GameLive.Index do
 
   @impl true
   def handle_info({GameappWeb.GameLive.FormComponent, {:saved, game}}, socket) do
-    {:noreply, stream_insert(socket, :games, game)}
+    {:noreply, stream_insert(socket, :games, game |> Repo.preload(:system, force: true) |> Repo.preload(:brand, force: true))}
   end
 
   @impl true
