@@ -10,6 +10,9 @@
 
 <.list>
   <:item title="Name"><%= @brand.name %></:item>
+  <:item :if={@brand.games} title="Games">
+    <%= Enum.map(@brand.games, &("#{&1.name}")) |> Enum.join(", ") %>
+  </:item>
 </.list>
 
 <.back navigate={~p"/brands"}>Back to brands</.back>
